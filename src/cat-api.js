@@ -7,6 +7,7 @@ export function fetchBreeds() {
     if (!response.ok) {
       throw new Error(response.statusText);
     }
+
     return response.json();
   });
 }
@@ -22,7 +23,7 @@ export function fetchCatByBreed(breedId) {
     if (!response.ok) {
       throw new Error(response.statusText);
     }
+
     return response.json();
   });
 }
-

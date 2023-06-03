@@ -2,15 +2,24 @@ import { fetchBreeds, fetchCatByBreed } from './cat-api';
 
 const selectEl = document.querySelector('.breed-select');
 const infoEl = document.querySelector('.cat-info');
-let selectedBreeds = [];
+const loaderEl = document.querySelector('.loader');
+const errorEl = document.querySelector('.error');
 
+selectEl.style.display = 'none';
+let selectedBreeds = [];
 selectEl.addEventListener('change', onSelect);
 infoEl.style.display = 'flex';
 infoEl.style.gap = '20px';
+infoEl.style.marginTop = '50px'
+
+errorEl.style.display = 'none';
 
 fetchBreeds()
   .then(option => {
+    selectEl.style.display = 'block';
+    loaderEl.style.display = 'none';
     option.map(value => renderList(value));
+
     selectedBreeds = option;
   })
   .catch(error => console.log(error));
@@ -27,8 +36,10 @@ function onSelect(element) {
 
   fetchCatByBreed(choosenCat.id)
     .then(value => {
+      
       const img = ` <img  src="${value[0].url}" alt="" style="width: 600px">`;
-      infoEl.insertAdjacentHTML('beforeend', img);
+        infoEl.insertAdjacentHTML('beforeend', img);
+        
 
       renderInfo(choosenCat);
     })
@@ -41,7 +52,7 @@ function renderInfo(obj) {
   const { name, description, temperament } = obj;
   const markup = `
     <div>   
-     <h2>${name}</h2>
+     <h2 class="text">${name}</h2>
      <p>${description}</p>
      <p><b>Temperament:</b> ${temperament}</p>
     </div>`;
