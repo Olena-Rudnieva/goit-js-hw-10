@@ -30,12 +30,14 @@ function renderList(value) {
 }
 
 function onSelect(element) {
+  loaderEl.style.display = 'block';
   const choosenCat = selectedBreeds.find(
     option => option.id === element.target.value
   );
 
   fetchCatByBreed(choosenCat.id)
     .then(value => {
+      loaderEl.style.display = 'none';
       
       const img = ` <img  src="${value[0].url}" alt="" style="width: 600px">`;
         infoEl.insertAdjacentHTML('beforeend', img);
