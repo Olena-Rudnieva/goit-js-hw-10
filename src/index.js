@@ -1,4 +1,5 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
+import Notiflix from 'notiflix';
 
 const selectEl = document.querySelector('.breed-select');
 const infoEl = document.querySelector('.cat-info');
@@ -10,19 +11,24 @@ let selectedBreeds = [];
 selectEl.addEventListener('change', onSelect);
 infoEl.style.display = 'flex';
 infoEl.style.gap = '20px';
-infoEl.style.marginTop = '50px'
-
+infoEl.style.marginTop = '50px';
 errorEl.style.display = 'none';
 
 fetchBreeds()
-  .then(option => {
+  .then(option => {    
     selectEl.style.display = 'block';
     loaderEl.style.display = 'none';
     option.map(value => renderList(value));
 
     selectedBreeds = option;
   })
-  .catch(error => console.log(error));
+  .catch(error => {
+    Notiflix.Notify.failure(
+      'Oops! Something went wrong! Try reloading the page!'
+    );
+    loaderEl.style.display = 'none';
+    console.log(error);
+  });
 
 function renderList(value) {
   const markup = `<option value="${value.id}">${value.name}</option>`;
@@ -36,16 +42,21 @@ function onSelect(element) {
   );
 
   fetchCatByBreed(choosenCat.id)
-    .then(value => {
+    .then(value => { 
       loaderEl.style.display = 'none';
-      
+
       const img = ` <img  src="${value[0].url}" alt="" style="width: 600px">`;
-        infoEl.insertAdjacentHTML('beforeend', img);
-        
+      infoEl.insertAdjacentHTML('beforeend', img);
 
       renderInfo(choosenCat);
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+       Notiflix.Notify.failure(
+         'Oops! Something went wrong! Try reloading the page!'
+       );
+      loaderEl.style.display = 'none';
+      console.log(error);
+    });
 
   infoEl.innerHTML = '';
 }

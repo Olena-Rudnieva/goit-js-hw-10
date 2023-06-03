@@ -3,7 +3,7 @@ export function fetchBreeds() {
   const API_KEY =
     'live_LNtGUGvnkn0MleVjdqd4yIwVLGRn0fBWg7rGNFbKucUpq7ucAj5JRMkiJScrOFTW';
 
-  return fetch(`${BASE_URL}/breeds?api-key=${API_KEY}`).then(response => {
+  return fetch(`${BASE_URL}/breeds123?api-key=${API_KEY}`).then(response => {
     if (!response.ok) {
       throw new Error(response.statusText);
     }
