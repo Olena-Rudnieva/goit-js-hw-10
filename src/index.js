@@ -6,12 +6,10 @@ const infoEl = document.querySelector('.cat-info');
 const loaderEl = document.querySelector('.loader');
 const errorEl = document.querySelector('.error');
 
+selectEl.addEventListener('change', onSelect);
 selectEl.style.display = 'none';
 let selectedBreeds = [];
-selectEl.addEventListener('change', onSelect);
-infoEl.style.display = 'flex';
-infoEl.style.gap = '20px';
-infoEl.style.marginTop = '50px';
+infoEl.classList.add('info-style')
 errorEl.style.display = 'none';
 
 fetchBreeds()
@@ -19,7 +17,6 @@ fetchBreeds()
     selectEl.style.display = 'block';
     loaderEl.style.display = 'none';
     option.map(value => renderList(value));
-
     selectedBreeds = option;
   })
   .catch(error => {
@@ -44,10 +41,8 @@ function onSelect(element) {
   fetchCatByBreed(choosenCat.id)
     .then(value => { 
       loaderEl.style.display = 'none';
-
       const img = ` <img  src="${value[0].url}" alt="" style="width: 600px">`;
       infoEl.insertAdjacentHTML('beforeend', img);
-
       renderInfo(choosenCat);
     })
     .catch(error => {
